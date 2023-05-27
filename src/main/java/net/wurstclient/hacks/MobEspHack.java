@@ -161,9 +161,10 @@ public final class MobEspHack extends Hack implements UpdateListener,
 			
 			matrixStack.scale(e.getWidth() + extraSize,
 				e.getHeight() + extraSize, e.getWidth() + extraSize);
-			
-			float f = MC.player.distanceTo(e) / 20F;
-			RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
+
+			float minGreen = .4f;
+			float green = Math.max(2 - MC.player.distanceTo(e) / 40F, minGreen);
+			RenderSystem.setShaderColor(0, green, 0, 0.5F);
 			
 			ShaderProgram shader = RenderSystem.getShader();
 			Matrix4f matrix4f = RenderSystem.getProjectionMatrix();
