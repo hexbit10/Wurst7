@@ -73,12 +73,15 @@ public final class HackListHUD implements UpdateListener
 	
 	private void drawHackList(MatrixStack matrixStack, float partialTicks)
 	{
-		if(otf.isAnimations())
-			for(HackListEntry e : activeHax)
+		for(HackListEntry e : activeHax){
+			textColor = e.hack.getCategory().getColor().getRGB();
+			if(otf.isAnimations()){
 				drawWithOffset(matrixStack, e, partialTicks);
-		else
-			for(HackListEntry e : activeHax)
+			}
+			else{
 				drawString(matrixStack, e.hack.getRenderName());
+			}
+		}
 	}
 	
 	public void updateState(Hack hack)
