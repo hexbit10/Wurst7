@@ -35,7 +35,7 @@ public final class AutoClickHack extends Hack implements UpdateListener, PostMot
 
     private final CheckboxSetting punchBlocks =
             new CheckboxSetting("Punch Blocks",
-                    "Destroy Blocks.\n\n Destroys single hit blocks on cross hair.",
+                    "Destroy Blocks.\n\nDestroys single hit blocks on cross hair.",
                     true);
 
     Entity entity = null;
