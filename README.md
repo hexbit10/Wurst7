@@ -1,3 +1,15 @@
+# Fork
+
+This is a fork of the Wurst Client v7
+
+## Additions
+- Colored HUD
+- AutoClick-Hack
+- Small Adjustments to my liking:
+  - MobESP-Color is now always green and fades to dark green for very far mobs
+
+below is the Readme of the [original Wurst Repository](https://github.com/Wurst-Imperium/Wurst7)
+
 # Wurst Client v7
 
 ## Downloads (for users)
