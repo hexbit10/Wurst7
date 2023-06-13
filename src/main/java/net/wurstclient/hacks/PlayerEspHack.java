@@ -7,10 +7,12 @@
  */
 package net.wurstclient.hacks;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.wurstclient.settings.ColorSetting;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
@@ -27,7 +29,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
@@ -49,7 +50,13 @@ public final class PlayerEspHack extends Hack implements UpdateListener,
 {
 	private final EnumSetting<Style> style =
 		new EnumSetting<>("Style", Style.values(), Style.LINES_AND_BOXES);
-	
+
+	private final ColorSetting color = new ColorSetting("Color",
+			"Boxes and Lines will be in this color.", new Color(0xE60000));
+
+	private final ColorSetting friendsColor = new ColorSetting("Friends Color",
+			"Boxes and Lines will be in this color.", new Color(0x00CBE6));
+
 	private final EnumSetting<BoxSize> boxSize = new EnumSetting<>("Box size",
 		"\u00a7lAccurate\u00a7r mode shows the exact hitbox of each player.\n"
 			+ "\u00a7lFancy\u00a7r mode shows slightly larger boxes that look better.",
@@ -67,6 +74,8 @@ public final class PlayerEspHack extends Hack implements UpdateListener,
 		setCategory(Category.RENDER);
 		
 		addSetting(style);
+		addSetting(color);
+		addSetting(friendsColor);
 		addSetting(boxSize);
 		entityFilters.forEach(this::addSetting);
 	}
@@ -162,11 +171,11 @@ public final class PlayerEspHack extends Hack implements UpdateListener,
 			
 			// set color
 			if(WURST.getFriends().contains(e.getEntityName()))
-				RenderSystem.setShaderColor(0, 0, 1, 0.5F);
+				RenderSystem.setShaderColor((float)friendsColor.getRed() / 255, (float)friendsColor.getGreen() / 255, (float)friendsColor.getBlue() / 255, 0.5F);
 			else
 			{
-				float f = MC.player.distanceTo(e) / 20F;
-				RenderSystem.setShaderColor(2 - f, f, 0, 0.5F);
+				// float f = MC.player.distanceTo(e) / 20F;
+				RenderSystem.setShaderColor((float)color.getRed() / 255, (float)color.getGreen() / 255, (float)color.getBlue() / 255, 0.5F);
 			}
 			
 			Box bb = new Box(-0.5, 0, -0.5, 0.5, 1, 0.5);
@@ -204,16 +213,14 @@ public final class PlayerEspHack extends Hack implements UpdateListener,
 			
 			if(WURST.getFriends().contains(e.getEntityName()))
 			{
-				r = 0;
-				g = 0;
-				b = 1;
-				
+				r = (float)friendsColor.getRed() / 255;
+				g = (float)friendsColor.getGreen() / 255;
+				b = (float)friendsColor.getBlue() / 255;
 			}else
 			{
-				float f = MC.player.distanceTo(e) / 20F;
-				r = MathHelper.clamp(2 - f, 0, 1);
-				g = MathHelper.clamp(f, 0, 1);
-				b = 0;
+				r = (float)color.getRed() / 255;
+				g = (float)color.getGreen() / 255;
+				b = (float)color.getBlue() / 255;
 			}
 			
 			bufferBuilder
